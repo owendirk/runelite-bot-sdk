@@ -2,6 +2,13 @@
 
 TypeScript clients and bots for the RuneLite `botsdk` plugin, using WebSocket commands/state.
 
+## Repos
+
+- Client/bots (this repo): `https://github.com/owendirk/runelite-bot-sdk`
+- RuneLite fork with integrated `botsdk` plugin branch: `https://github.com/owendirk/runelite` (`botsdk-integration`)
+- Standalone plugin source: `https://github.com/owendirk/runelite-botsdk-plugin`
+- RS-SDK fork branch used in this workspace: `https://github.com/owendirk/rs-sdk` (`botsdk-integration`)
+
 ## Contents
 
 - `smart_fishing_bot.ts`: Main fishing bot (default: Lumbridge Swamp, exact spot anchors, optional shrimp dropping on full inventory)
@@ -13,16 +20,36 @@ TypeScript clients and bots for the RuneLite `botsdk` plugin, using WebSocket co
 ## Prerequisites
 
 - Bun `1.3+`
-- RuneLite client with `botsdk` plugin available
+- Java `17+`
+- RuneLite client with `botsdk` plugin (from `owendirk/runelite` branch `botsdk-integration`)
 - OSRS account logged in-game
 
-## 1) Start RuneLite with Bot SDK
+## Quickstart (Fresh Machine)
 
-Launch RuneLite (example local path):
+Clone:
 
 ```bash
-java -jar /home/skier/Documents/osrs/runelite/runelite-client/build/libs/client-1.12.17-SNAPSHOT-shaded.jar
+mkdir -p ~/osrs && cd ~/osrs
+git clone https://github.com/owendirk/runelite-bot-sdk.git
+git clone --branch botsdk-integration https://github.com/owendirk/runelite.git
 ```
+
+Build RuneLite with Bot SDK plugin:
+
+```bash
+cd ~/osrs/runelite
+./gradlew :runelite-client:shadowJar
+```
+
+Start RuneLite:
+
+```bash
+java -jar ~/osrs/runelite/runelite-client/build/libs/client-*-SNAPSHOT-shaded.jar
+```
+
+Then continue with steps below.
+
+## 1) Enable Bot SDK in RuneLite
 
 In RuneLite plugin config:
 
@@ -35,7 +62,7 @@ In RuneLite plugin config:
 ## 2) Start the Monitor (optional)
 
 ```bash
-cd /home/skier/Documents/osrs/botsdk_client
+cd ~/osrs/runelite-bot-sdk
 bun run monitor/server.ts
 ```
 
@@ -49,7 +76,7 @@ Monitor URLs:
 Default run:
 
 ```bash
-cd /home/skier/Documents/osrs/botsdk_client
+cd ~/osrs/runelite-bot-sdk
 bun run smart_fishing_bot.ts
 ```
 
@@ -97,36 +124,3 @@ Supported flags:
 - Bot not moving after walk command:
 - Confirm game window is active and SDK plugin is enabled
 - Watch for `[SDK ERROR]` lines in logs
-
-## Publish to GitHub
-
-`botsdk_client` is currently a plain folder (not yet a git repo). To publish:
-
-1. Initialize and commit:
-
-```bash
-cd /home/skier/Documents/osrs/botsdk_client
-git init
-git add .
-git commit -m "Initial botsdk_client bot + monitor setup"
-```
-
-2. Authenticate GitHub CLI (required once per machine):
-
-```bash
-gh auth login -h github.com
-```
-
-3. Create repo and push:
-
-```bash
-gh repo create botsdk_client --private --source=. --remote=origin --push
-```
-
-If you already have a repo URL:
-
-```bash
-git remote add origin <YOUR_GITHUB_REPO_URL>
-git branch -M main
-git push -u origin main
-```
