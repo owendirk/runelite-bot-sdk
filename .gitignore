@@ -1,0 +1,25 @@
+# OS/editor
+.DS_Store
+*.log
+.idea/
+.vscode/
+
+# Local scratch
+BANKING
+
+# RuneLite
+/runelite/.gradle/
+/runelite/**/build/
+
+# Standalone plugin
+/runelite-botsdk-plugin/.gradle/
+/runelite-botsdk-plugin/build/
+/runelite-botsdk-plugin/bin/
+
+# RS-SDK
+/rs-sdk/node_modules/
+/rs-sdk/**/node_modules/
+/rs-sdk/dist/
+/rs-sdk/**/dist/
+/rs-sdk/coverage/
+/rs-sdk/**/coverage/
